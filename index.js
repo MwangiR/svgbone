@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs/promises");
-const triangle = require("./lib/triangle");
-const square = require("./lib/square");
+const Triangle = require("./lib/triangle");
+const Square = require("./lib/square");
 const Circle = require("./lib/circle");
 
 async function promptForText() {
@@ -48,10 +48,10 @@ function generateSVG(shapeType, shapeColor, text, textColor) {
       shape = new Circle(shapeColor, text, textColor);
       break;
     case "triangle":
-      shape = new triangle(shapeColor, text, textColor);
+      shape = new Triangle(shapeColor, text, textColor);
       break;
     case "square":
-      shape = new square(shapeColor, text, textColor);
+      shape = new Square(shapeColor, text, textColor);
       break;
 
     default:
@@ -61,7 +61,11 @@ function generateSVG(shapeType, shapeColor, text, textColor) {
 }
 
 async function saveSVGToFile(svgContent) {
-  const htmlContent = `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">${svgContent}</svg>`;
+  const htmlContent = `
+  <svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  ${svgContent}
+  </svg>
+  `;
 
   await fs.writeFile("./output/index.svg", htmlContent);
   console.log("Saved SVG to file");
