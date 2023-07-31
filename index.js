@@ -10,6 +10,12 @@ async function promptForText() {
     name: "text",
     message: "Enter text",
   });
+
+  if (answers.text.length > 3) {
+    console.log("Must enter a value of no more than 3 characters.");
+    return promptForText();
+  }
+
   return answers.text;
 }
 
@@ -57,13 +63,19 @@ function generateSVG(shapeType, shapeColor, text, textColor) {
     default:
       throw new Error("Invalid Shape Type");
   }
-  return shape.render();
+  const svgContent = shape.render();
+  const renderedText = `<text x="150" y="130" text-anchor="middle" font-size="40" fill="${textColor}">${text}</text>`;
+  return {
+    svgContent,
+    renderedText,
+  }
 }
 
-async function saveSVGToFile(svgContent) {
+async function saveSVGToFile(svgContent, renderedText) {
   const htmlContent = `
   <svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
   ${svgContent}
+  ${renderedText}
   </svg>
   `;
 
@@ -85,10 +97,10 @@ async function main() {
     const shapeColor = await promptForShapeColor();
     console.log("Logo shape color", shapeColor);
 
-    const svgContent = generateSVG(shapeType, shapeColor, text, textColor);
+    const {svgContent, renderedText} = generateSVG(shapeType, shapeColor, text, textColor);
     console.log(svgContent);
 
-    await saveSVGToFile(svgContent);
+    await saveSVGToFile(svgContent, renderedText);
   } catch (error) {
     console.log(error);
   }
