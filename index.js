@@ -26,11 +26,18 @@ async function promptForColor() {
     message: "Enter text color (named color or hexadecimal format)",
     validate: function (input) {
       // Check if the input is a valid named color or a valid 3 or 6 character hexadecimal color
+      const namedColorRegex = /^[a-zA-Z]+$/;
       const hexColorRegex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
 
-      if (!input || (!input.startsWith("#") && !hexColorRegex.test(input))) {
+      if (!input || (!namedColorRegex.test(input) && !hexColorRegex.test(input))) {
         throw new Error(
           "Invalid color format. Please enter a valid named color or a valid 3 or 6 character hexadecimal color.",
+        );
+      }
+
+      if (hexColorRegex.test(input) && !input.startsWith("#")) {
+        throw new Error(
+          "Invalid hexadecimal color format. Please enter a valid 3 or 6 character hexadecimal color.",
         );
       }
 
@@ -45,20 +52,28 @@ async function promptForShapeColor() {
   const answers = await inquirer.prompt({
     type: "string",
     name: "color",
-    message: "Enter shape color (named color or hexadecimal format)",
+    message: "Enter text color (named color or hexadecimal format)",
     validate: function (input) {
       // Check if the input is a valid named color or a valid 3 or 6 character hexadecimal color
+      const namedColorRegex = /^[a-zA-Z]+$/;
       const hexColorRegex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
 
-      if (!input || (!input.startsWith("#") && !hexColorRegex.test(input))) {
+      if (!input || (!namedColorRegex.test(input) && !hexColorRegex.test(input))) {
         throw new Error(
           "Invalid color format. Please enter a valid named color or a valid 3 or 6 character hexadecimal color.",
+        );
+      }
+
+      if (hexColorRegex.test(input) && !input.startsWith("#")) {
+        throw new Error(
+          "Invalid hexadecimal color format. Please enter a valid 3 or 6 character hexadecimal color.",
         );
       }
 
       return true;
     },
   });
+
   return answers.color;
 }
 
