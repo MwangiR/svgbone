@@ -21,18 +21,43 @@ async function promptForText() {
 
 async function promptForColor() {
   const answers = await inquirer.prompt({
-    type: "input",
+    type: "string",
     name: "color",
-    message: "Enter text color",
+    message: "Enter text color (named color or hexadecimal format)",
+    validate: function (input) {
+      // Check if the input is a valid named color or a valid 3 or 6 character hexadecimal color
+      const hexColorRegex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
+
+      if (!input || (!input.startsWith("#") && !hexColorRegex.test(input))) {
+        throw new Error(
+          "Invalid color format. Please enter a valid named color or a valid 3 or 6 character hexadecimal color.",
+        );
+      }
+
+      return true;
+    },
   });
+
   return answers.color;
 }
 
 async function promptForShapeColor() {
   const answers = await inquirer.prompt({
-    type: "input",
+    type: "string",
     name: "color",
-    message: "Enter shape color",
+    message: "Enter shape color (named color or hexadecimal format)",
+    validate: function (input) {
+      // Check if the input is a valid named color or a valid 3 or 6 character hexadecimal color
+      const hexColorRegex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
+
+      if (!input || (!input.startsWith("#") && !hexColorRegex.test(input))) {
+        throw new Error(
+          "Invalid color format. Please enter a valid named color or a valid 3 or 6 character hexadecimal color.",
+        );
+      }
+
+      return true;
+    },
   });
   return answers.color;
 }
@@ -68,7 +93,7 @@ function generateSVG(shapeType, shapeColor, text, textColor) {
   return {
     svgContent,
     renderedText,
-  }
+  };
 }
 
 async function saveSVGToFile(svgContent, renderedText) {
@@ -97,7 +122,7 @@ async function main() {
     const shapeColor = await promptForShapeColor();
     console.log("Logo shape color", shapeColor);
 
-    const {svgContent, renderedText} = generateSVG(shapeType, shapeColor, text, textColor);
+    const { svgContent, renderedText } = generateSVG(shapeType, shapeColor, text, textColor);
     console.log(svgContent);
 
     await saveSVGToFile(svgContent, renderedText);
@@ -107,3 +132,12 @@ async function main() {
 }
 
 main();
+
+module.exports = {
+  promptForText,
+  promptForColor,
+  promptForShape,
+  promptForShapeColor,
+  generateSVG,
+  saveSVGToFile,
+};
