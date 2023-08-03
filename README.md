@@ -13,11 +13,12 @@ Project name is SVGBONE. The application takes in user prompts to create a logo 
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
+- [Sample Logo](#sample-logo)
 - [Questions](#questions)
 
 ## Installation
 
-1. Clone the repository: git clone https://github.com/your-username/SVGBONE.git
+1. Clone the repository: git clone https://github.com/MwangiR/svgbone.git
 2. Navigate to the project directory: cd SVGBONE
 3. Install dependencies: npm install
 4. Start the development server: node undefined.js
