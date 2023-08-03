@@ -52,7 +52,7 @@ async function promptForShapeColor() {
   const answers = await inquirer.prompt({
     type: "string",
     name: "color",
-    message: "Enter text color (named color or hexadecimal format)",
+    message: "Enter shape color (named color or hexadecimal format)",
     validate: function (input) {
       // Check if the input is a valid named color or a valid 3 or 6 character hexadecimal color
       const namedColorRegex = /^[a-zA-Z]+$/;
